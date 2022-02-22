@@ -22,6 +22,7 @@ from dotenv import load_dotenv
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'public')
 
 STATICFILES_DIR = BASE_DIR / "public"
 
@@ -32,8 +33,8 @@ STATICFILES_DIR = BASE_DIR / "public"
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.getenv('DEBUG')) == "1"
-
+# DEBUG = str(os.getenv('DEBUG')) == "0"
+DEBUG= True
 ALLOWED_HOSTS = ['*']
 
 
@@ -66,7 +67,7 @@ ROOT_URLCONF = 'practice.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

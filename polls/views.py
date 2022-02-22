@@ -6,6 +6,8 @@ from django.http import HttpResponse, JsonResponse
 import torch
 import json
 import os
+from django.shortcuts import render
+
 from django.contrib.staticfiles import finders
 
 model = torch.hub.load('yolov5', 'yolov5s', source='local', device='cpu')
@@ -24,6 +26,7 @@ model = torch.hub.load('yolov5', 'yolov5s', source='local', device='cpu')
 
 
 class ReceiveImages(APIView):
+    print ("in function")
     def post(self, request, format=None):
 
         try:
@@ -62,8 +65,13 @@ class ReceiveImages(APIView):
                 file_list = os.listdir(result_dir+'/crops/'+fruit)
                 unique_fruits[fruit] = file_list
 
+            name_confidence = []
             final_data = []
             for record in data:
+                name_confidence.append({
+                    "name": record.get('name'),
+                    "confidence": record.get('confidence')
+                })
                 final_data.append({
                     "name": record.get('name'),
                     "confidence": record.get('confidence'),
@@ -75,11 +83,16 @@ class ReceiveImages(APIView):
                 "actual_image_url": staticPrefix + '/'+modified_res_loc+'/'+filename
             }
 
-            return JsonResponse(resultant_data, safe=False)
+            return render(request,"home.html",{'context':name_confidence})
 
         except:
 
-            return JsonResponse({
-                "data": [],
-                "actual_image_url": ""
-            }, status=500)
+            # return JsonResponse({
+            #     "data": [],
+            #     "actual_image_url": ""
+            # }, status=500)
+            return render(request,"home.html",{'context1':"Some Error Occur"})
+
+def home(request):
+
+    return render(request,"home.html")
