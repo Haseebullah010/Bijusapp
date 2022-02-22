@@ -49,8 +49,8 @@ six==1.16.0
 sqlparse==0.4.2
 thop==0.0.31.post2005241907
 toml==0.10.2
-#torch==1.10.2+cpu
-#torchvision==0.11.3+cpu
+torch==1.10.2+cpu
+torchvision==0.11.3+cpu
 torch==1.10.2
 torchvision==0.11.3
 tqdm==4.62.3
